@@ -20,7 +20,7 @@ Route::get('/', function () {
 });
 
 // halaman daftar guru
-Route::name('teachers')->prefix('teachers')->group(function () {
+Route::name('teachers.')->prefix('teachers')->group(function () {
     Route::get('/', [TeacherController::class, 'index'])->name('index');
  
     Route::get('/{id}', [TeacherController::class, 'show'])->name('show');
@@ -37,7 +37,7 @@ Route::name('teachers')->prefix('teachers')->group(function () {
 });
  
 // Halaman daftar siswa
-Route::name('students')->prefix('students')->group(function () {
+Route::name('students.')->prefix('students')->group(function () {
     Route::get('/', [StudentController::class, 'index'])->name('index');
  
     Route::get('/{id}', [StudentController::class, 'show'])->name('show');
