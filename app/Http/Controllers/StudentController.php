@@ -12,21 +12,21 @@ class StudentController extends Controller
         $students = [
             [
                 'id' => 1, 
-                'name' => 'sugA', 
+                'name' => 'Rusdi', 
                 'class' => '12 TKJ 3',
                 'major' => 'TKJ',
                 'nis' => '2204001',
             ], 
             [
                 'id' => 2, 
-                'name' => 'gnawkA', 
+                'name' => 'Andriana', 
                 'class' => '12 AKL 1',
                 'major' => 'AKL',
                 'nis' => '2204002',
             ],
             [
                 'id' => 3, 
-                'name' => 'imuS', 
+                'name' => 'Si Imut', 
                 'class' => '12 BID',
                 'major' => 'BID',
                 'nis' => '2204003'
@@ -49,7 +49,7 @@ class StudentController extends Controller
     }
 
     public function create(){
-        $title = "Sistem Sekolah - Catat Siswa Baru";
+        $title = "Sistem Sekolah - Tambah Siswa";
 
         return view('students.create', [
             'title' => $title

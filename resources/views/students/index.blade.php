@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="id">
-
+ 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-
+ 
 <body class="flex min-h-screen flex-col bg-[#F7F6F2] text-slate-700">
-
+ 
     {{-- Header Start--}}
     <header class="bg-[#16213A] text-white">
         <div class="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
@@ -29,10 +29,10 @@
         <div class="h-0.5 bg-[#A16207]"></div>
     </header>
     {{-- Header End --}}
-
+ 
     {{-- Content Start --}}
     <main class="mx-auto w-full max-w-5xl flex-1 px-6 py-10">
-
+ 
         <div class="mb-8 flex items-end justify-between border-b border-[#E5E3DB] pb-5">
             <div>
                 <p class="mb-1 text-[11px] uppercase tracking-[0.2em] text-[#A16207]">Tahun Ajaran 2025/2026</p>
@@ -42,7 +42,7 @@
                 Catat Siswa Baru
             </a>
         </div>
-
+ 
         <div class="border border-[#E5E3DB] bg-white">
             <table class="w-full text-left text-sm">
                 <thead>
@@ -59,39 +59,40 @@
                     @foreach ($students as $student)
                     <tr class="border-b border-[#EFEDE6] hover:bg-[#FAF9F5]">
                         <td class="px-5 py-4 font-display text-lg text-[#A16207]">
-                            {{ $loop->iteration }} 
-                        </td>   
+                            {{ $loop->iteration }}
+                        </td>
                         <td class="px-5 py-4 font-mono text-xs text-slate-500">
-                            {{ $student['nis'] }}
+                            {{ $student ['nis'] }}
                         </td>
                         <td class="px-5 py-4 font-medium text-[#16213A]">
-                            {{ $student['name'] }}
+                            {{ $student ['name'] }}
                         </td>
                         <td class="px-5 py-4">
-                            {{ $student['class'] }}
+                            {{ $student ['class'] }}
                         </td>
                         <td class="px-5 py-4">
-                            {{ $student['major'] }}
+                            {{ $student ['major'] }}
                         </td>
                         <td class="px-5 py-4">
                             <div class="flex justify-end gap-4 text-xs font-medium">
                                 <a href="" class="text-[#16213A] hover:text-[#A16207]">Lihat</a>
                                 <a href="" class="text-[#16213A] hover:text-[#A16207]">Ubah</a>
                                 <form action="" method="POST"
-                                    onsubmit="return confirm('Hapus data siswa ini? Yaudah sih dia ga berguna juga')">
-
+                                    onsubmit="return confirm('Hapus data siswa ini dari buku induk?')">
+ 
                                     <button type="submit" class="text-red-700 hover:text-red-900">Hapus</button>
                                 </form>
                             </div>
                         </td>
                     </tr>
                     @endforeach
+
                 </tbody>
             </table>
         </div>
     </main>
     {{-- Content End --}}
-
+ 
     {{-- Footer Start --}}
     <footer class="border-t border-[#E5E3DB]">
         <div class="mx-auto flex max-w-5xl items-center justify-between px-6 py-6 text-xs text-slate-400">
@@ -100,7 +101,7 @@
         </div>
     </footer>
     {{-- Footer End --}}
-
+ 
 </body>
-
+ 
 </html>
