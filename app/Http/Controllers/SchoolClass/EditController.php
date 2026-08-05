@@ -12,6 +12,6 @@ class EditController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return "Ini adalah halaman form untuk mengedit kelas dengan ID: " . $request->id;
+        return "Ini adalah halaman untuk mengedit kelas dengan ID: {$request->id}";
     }
 }
