@@ -70,18 +70,4 @@ Route::name('classes.')->prefix('classes')->group(function () {
 });
 
 // Manajemen Jurusan
-Route::name('majors.')->prefix('majors')->group(function () {
-    Route::get('/', [MajorController::class, 'index'])->name('index');
-
-    Route::get('/{id}', [MajorController::class, 'show'])->name('show')->whereNumber('id');
-
-    Route::get('/create', [MajorController::class, 'create'])->name('create');
-
-    Route::post('/', [MajorController::class, 'store'])->name('store');
-
-    Route::get('/{id}/edit', [MajorController::class, 'edit'])->name('edit')->whereNumber('id');
-
-    Route::put('/{id}', [MajorController::class, 'update'])->name('update')->whereNumber('id');
-
-    Route::delete('/{id}', [MajorController::class, 'destroy'])->name('destroy')->whereNumber('id');
-});
+Route::resource('majors', MajorController::class);  
