@@ -22,9 +22,9 @@ Route::get('/', function () {
 Route::name('teachers.')->prefix('teachers')->group(function () {
     Route::get('/', [TeacherController::class, 'index'])->name('index');
     
-    Route::get('/{id}', [TeacherController::class, 'show'])->name('show')->whereNumber('id')->whereNumber('id');
-
     Route::get('/create', [TeacherController::class, 'create'])->name('create');
+
+    Route::get('/{id}', [TeacherController::class, 'show'])->name('show')->whereNumber('id');
 
     Route::post('/', [TeacherController::class, 'store'])->name('store');
 
@@ -45,7 +45,7 @@ Route::name('students.')->prefix('students')->group(function () {
 
     Route::post('/', [StudentController::class, 'store'])->name('store');
 
-    Route::get('/{id}/edit', [StudentController::class, 'edit'])->name('edit')->whereNumber('id');
+    Route::get('/{id}/edit', [StudentController::class, 'edit'])->name('edit');
 
     Route::put('/{id}', [StudentController::class, 'update'])->name('update')->whereNumber('id');
 
@@ -56,9 +56,9 @@ Route::name('students.')->prefix('students')->group(function () {
 Route::name('classes.')->prefix('classes')->group(function () {
     Route::get('/', IndexController::class)->name('index');
 
-    Route::get('/{id}', ShowController::class)->name('show')->whereNumber('id');
-
     Route::get('/create', CreateController::class)->name('create');
+
+    Route::get('/{id}', ShowController::class)->name('show')->whereNumber('id');
 
     Route::post('/', StoreController::class)->name('store');
 
@@ -70,4 +70,4 @@ Route::name('classes.')->prefix('classes')->group(function () {
 });
 
 // Manajemen Jurusan
-Route::resource('majors', MajorController::class);  
+Route::resource('majors', MajorController::class);
