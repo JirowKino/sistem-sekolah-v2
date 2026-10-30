@@ -2,82 +2,51 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Student\StoreRequest;
+use App\Http\Requests\Student\UpdateRequest;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $title = "Sistem Sekolah - Daftar Siswa";
-        $students = [
-            [
-                'id' => 1,
-                'nis' => '22100001',
-                'name' => 'Andi',
-                'class' => 'XII TKJ 3',
-                'major' => 'TKJ',
-            ],
-            [
-                'id' => 2,
-                'nis' => '22100002',
-                'name' => 'Budi',
-                'class' => 'XII AKL',
-                'major' => 'AKL',
-            ]
-        ];
+
+        $search = $request->query('search');
+        $class = $request->query('class');
+        $major = $request->query('major');
+
+        $students = Student::select(['id', 'nis', 'name', 'class', 'major'])
+        ->when($search, function ($query, $search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('nis', 'like', "%{$search}%");
+            });
+        })
+        ->when($class, fn ($query, $class) => $query->where('class', '=', $class))
+        ->when($major, fn ($query, $major) => $query->where('major', '=', $major))
+        ->paginate(10)
+        ->withQueryString();
+
+        $schoolClasses = ['10 AKL', '11 AKL', '11 TKJ 1', '11 TKJ 2', '10 BID', '12 TKJ 1', '12 TKJ 2', '12 TKJ 3'];
+        $majors = ['AKL', 'TKJ', 'BID'];
 
             return view('students.index', [
                 'title' => $title,
-                'students' => $students
+                'students' => $students,
+                'schoolClasses' => $schoolClasses,
+                'majors' => $majors
             ]);
     }
 
-    public function show($id)
+    public function show(Student $student)
     {
         $title = "Sistem Sekolah - Detail Siswa";
 
-        $students = [
-            [
-                'id' => 1,
-                'nis' => '22100001',
-                'name' => 'Andi',
-                'class' => 'XII TKJ 3',
-                'major' => 'TKJ',
-                'gender' => 'L',
-            ],
-            [
-                'id' => 2,
-                'nis' => '22100002',
-                'name' => 'Budi',
-                'class' => 'XII AKL',
-                'major' => 'AKL',
-                'gender' => 'P',
-            ]
-        ];
-
-        $found = null;
-        foreach ($students as $s) {
-            if ($s['id'] == $id) {
-                $found = $s;
-                break;
-            }
-        }
-
-        if (!$found) {
-            abort(404, 'Siswa tidak ditemukan');
-        }
-
-        $student = (object)[
-            'nis' => $found['nis'],
-            'name' => $found['name'],
-            'gender' => $found['gender'],
-            'major' => $found['major'],
-            'class' => $found['class'],
-        ];
-
         return view('students.show', [
             'title' => $title,
-            'student' => $student,
+            'student' => $student
         ]);
     }
 
@@ -89,53 +58,21 @@ class StudentController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        return "Menyimpan data siswa baru";
+        // Validasi
+        $validatedRequest = $request->validated();
+
+        //Tambahkan data ke database
+        Student::create($validatedRequest);
+
+        //Handle if success
+        return redirect()->route('students.index');
     }
 
-    public function edit($id)
+    public function edit(Student $student)
     {
         $title = "Sistem Sekolah - Edit Siswa";
-
-        $students = [
-            [
-                'id' => 1,
-                'nis' => '22100001',
-                'name' => 'Andi',
-                'class' => 'XII TKJ 3',
-                'major' => 'TKJ',
-                'gender' => 'L',
-            ],
-            [
-                'id' => 2,
-                'nis' => '22100002',
-                'name' => 'Budi',
-                'class' => 'XII AKL',
-                'major' => 'AKL',
-                'gender' => 'P',
-            ]
-        ];
-
-        $found = null;
-        foreach ($students as $s) {
-            if ($s['id'] == $id) {
-                $found = $s;
-                break;
-            }
-        }
-
-        if (!$found) {
-            abort(404, 'Siswa tidak ditemukan');
-        }
-
-        $student = (object)[
-            'nis' => $found['nis'],
-            'name' => $found['name'],
-            'gender' => $found['gender'],
-            'major' => $found['major'],
-            'class' => $found['class'],
-        ];
 
         return view('students.edit', [
             'title' => $title,
@@ -143,13 +80,24 @@ class StudentController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Student $student, UpdateRequest $request)
     {
-        return "Memperbarui data siswa dengan ID: {$id}";
+        // Validasi
+        $validatedRequest = $request->validated();
+
+        // Update data
+        $student->update($validatedRequest);
+
+        // Handle if success
+        return redirect()->route('students.index');
     }
 
-    public function destroy($id)
+    public function destroy(Student $student)
     {
-        return "Menghapus data siswa dengan ID: {$id}";
+        // Delete data
+        $student->delete();
+
+        // Handle if success
+        return redirect()->route('students.index');
     }
 }
